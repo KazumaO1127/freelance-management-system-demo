@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="80" viewBox="0 0 1200 80">
+  <g id="layer-background" data-name="layer/background">
+    <rect width="1200" height="80" fill="#ffffff" stroke="#e5e7eb"/>
+  </g>
+
+  <g id="layer-logo" data-name="layer/logo">
+    <rect x="16" y="16" width="120" height="48" rx="6" fill="#0f172a"/>
+    <text x="32" y="44" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="16">LOGO</text>
+  </g>
+
+  <g id="layer-navigation" data-name="layer/navigation" transform="translate(360,24)">
+    <text x="0" y="16" fill="#2563eb" font-family="Arial" font-size="14">ダッシュ</text>
+    <text x="80" y="16" fill="#6b7280" font-family="Arial" font-size="14">案件</text>
+    <text x="160" y="16" fill="#6b7280" font-family="Arial" font-size="14">請求</text>
+  </g>
+
+  <g id="layer-icons" data-name="layer/icons" transform="translate(980,24)">
+    <rect x="0" y="0" width="28" height="28" rx="6" fill="#f3f4f6" stroke="#e5e7eb"/>
+    <rect x="40" y="0" width="28" height="28" rx="14" fill="#f3f4f6" stroke="#e5e7eb"/>
+    <rect x="80" y="0" width="36" height="36" rx="18" fill="#111827"/>
+  </g>
+
+  <g id="layer-hints" data-name="layer/hints">
+    <text x="980" y="60" fill="#6b7280" font-family="Arial" font-size="12">（検索 / 通知 / アバター）</text>
+  </g>
+</svg>

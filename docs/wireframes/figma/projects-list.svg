@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+  <g id="Background" data-name="Background">
+    <rect width="1200" height="720" fill="#ffffff" stroke="#e5e7eb"/>
+  </g>
+
+  <g id="layer-header" data-name="layer/header">
+    <text x="24" y="40" font-family="Arial" font-size="20" fill="#0f172a">案件一覧</text>
+    <g id="layer-new-button" data-name="layer/new-button">
+      <rect x="980" y="16" width="160" height="36" rx="6" fill="#2563eb"/>
+      <text x="1008" y="40" fill="#ffffff" font-family="Arial" font-size="14">新規作成</text>
+    </g>
+  </g>
+
+  <g id="layer-filters" data-name="layer/filters">
+    <rect x="24" y="64" width="1152" height="56" rx="8" fill="#f3f4f6" stroke="#e5e7eb"/>
+    <text x="40" y="98" font-family="Arial" font-size="13" fill="#6b7280">検索: [____________________] ステータス: [全て v] クライアント: [________]</text>
+  </g>
+
+  <g id="layer-table" data-name="layer/table">
+    <g id="layer-table-header" data-name="layer/table/header">
+      <rect x="24" y="136" width="1152" height="40" fill="#ffffff" stroke="#e5e7eb"/>
+      <text x="40" y="162" font-family="Arial" font-size="13">ID</text>
+      <text x="100" y="162" font-family="Arial" font-size="13">タイトル</text>
+      <text x="420" y="162" font-family="Arial" font-size="13">クライアント</text>
+      <text x="620" y="162" font-family="Arial" font-size="13">単価</text>
+      <text x="720" y="162" font-family="Arial" font-size="13">期間</text>
+      <text x="920" y="162" font-family="Arial" font-size="13">ステータス</text>
+      <text x="1040" y="162" font-family="Arial" font-size="13">操作</text>
+    </g>
+
+    <g id="layer-row-101" data-name="layer/table/row-101">
+      <rect x="24" y="176" width="1152" height="48" fill="#ffffff"/>
+      <text x="40" y="206" font-family="Arial" font-size="13">101</text>
+      <text x="100" y="206" font-family="Arial" font-size="13">API開発案件</text>
+      <text x="420" y="206" font-family="Arial" font-size="13">Acme Ltd.</text>
+      <text x="620" y="206" font-family="Arial" font-size="13">¥120,000</text>
+      <text x="720" y="206" font-family="Arial" font-size="13">2025-01-01 ~ 2025-03-31</text>
+      <text x="920" y="206" font-family="Arial" font-size="13">working</text>
+      <text x="1040" y="206" font-family="Arial" font-size="13">編集 削除</text>
+    </g>
+
+    <g id="layer-row-100" data-name="layer/table/row-100">
+      <rect x="24" y="232" width="1152" height="48" fill="#ffffff"/>
+      <text x="40" y="262" font-family="Arial" font-size="13">100</text>
+      <text x="100" y="262" font-family="Arial" font-size="13">ランディング改修</text>
+      <text x="420" y="262" font-family="Arial" font-size="13">Beta Inc.</text>
+      <text x="620" y="262" font-family="Arial" font-size="13">¥80,000</text>
+      <text x="720" y="262" font-family="Arial" font-size="13">2024-12-01 ~ 2025-01-15</text>
+      <text x="920" y="262" font-family="Arial" font-size="13">contracted</text>
+      <text x="1040" y="262" font-family="Arial" font-size="13">編集 削除</text>
+    </g>
+  </g>
+
+  <g id="layer-pagination" data-name="layer/pagination">
+    <text x="24" y="680" font-family="Arial" font-size="13" fill="#6b7280">← 前へ 1 / 5 次へ →</text>
+  </g>
+</svg>
