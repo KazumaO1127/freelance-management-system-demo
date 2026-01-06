@@ -17,4 +17,8 @@
 ## 備考
 <!-- レビュワーへの伝達事項や残しておきたい情報がある場合には記載 -->
 
+## Issue管理
+<!-- マージと共にcloseするIssueがあればIsuueNumberを指定する -->
+closes #IssuNumber
+
 ※ このPull Requestの説明およびレビューは日本語で記載してください。
