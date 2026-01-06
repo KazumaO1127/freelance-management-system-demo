@@ -43,6 +43,8 @@ app/
 ✅ main = 常にデモ可能状態
 ✅ spec/{issue番号}-{概要}
 ✅ feature/* ブランチ（1-3日完結）
+✅ fix/{issue番号}-{概要}
+✅ hotfix/{概要}
 ✅ 全てPR経由マージ
 ✅ テスト80% + Actions緑必須
 ✅ DDD規約厳守（Entity/ValueObject/Service）
