@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="900" viewBox="0 0 800 900">
+  <g id="layer-background" data-name="layer/background">
+    <rect width="800" height="900" fill="#ffffff" stroke="#e5e7eb"/>
+  </g>
+
+  <g id="layer-header" data-name="layer/header">
+    <text x="24" y="40" font-family="Arial" font-size="20" fill="#0f172a">案件登録</text>
+  </g>
+
+  <g id="layer-fields" data-name="layer/fields">
+    <g id="field-title" data-name="layer/fields/title">
+      <text x="40" y="88" font-family="Arial" font-size="14" fill="#6b7280">タイトル（必須）</text>
+      <rect x="40" y="96" width="720" height="40" rx="6" fill="#f3f4f6" stroke="#e5e7eb"/>
+    </g>
+
+    <g id="field-client" data-name="layer/fields/client">
+      <text x="40" y="156" font-family="Arial" font-size="14" fill="#6b7280">クライアント（必須）</text>
+      <rect x="40" y="164" width="360" height="40" rx="6" fill="#f3f4f6" stroke="#e5e7eb"/>
+    </g>
+
+    <g id="field-unitprice" data-name="layer/fields/unitprice">
+      <text x="420" y="156" font-family="Arial" font-size="14" fill="#6b7280">単価</text>
+      <rect x="420" y="164" width="340" height="40" rx="6" fill="#f3f4f6" stroke="#e5e7eb"/>
+    </g>
+
+    <g id="field-period" data-name="layer/fields/period">
+      <text x="40" y="236" font-family="Arial" font-size="14" fill="#6b7280">開始日 / 終了日</text>
+      <rect x="40" y="244" width="200" height="40" rx="6" fill="#f3f4f6" stroke="#e5e7eb"/>
+      <rect x="260" y="244" width="200" height="40" rx="6" fill="#f3f4f6" stroke="#e5e7eb"/>
+    </g>
+
+    <g id="field-status" data-name="layer/fields/status">
+      <text x="40" y="316" font-family="Arial" font-size="14" fill="#6b7280">ステータス</text>
+      <rect x="40" y="324" width="360" height="40" rx="6" fill="#f3f4f6" stroke="#e5e7eb"/>
+    </g>
+
+    <g id="field-note" data-name="layer/fields/note">
+      <text x="40" y="396" font-family="Arial" font-size="14" fill="#6b7280">メモ</text>
+      <rect x="40" y="404" width="720" height="200" rx="6" fill="#ffffff" stroke="#e5e7eb"/>
+    </g>
+  </g>
+
+  <g id="layer-actions" data-name="layer/actions">
+    <g id="btn-cancel" data-name="layer/actions/cancel">
+      <rect x="40" y="640" width="120" height="44" rx="6" fill="#ef4444"/>
+      <text x="64" y="672" font-family="Arial" font-size="14" fill="#ffffff">キャンセル</text>
+    </g>
+    <g id="btn-save" data-name="layer/actions/save">
+      <rect x="640" y="640" width="120" height="44" rx="6" fill="#10b981"/>
+      <text x="676" y="672" font-family="Arial" font-size="14" fill="#ffffff">保存</text>
+    </g>
+  </g>
+
+</svg>
