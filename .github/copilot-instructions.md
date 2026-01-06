@@ -89,7 +89,7 @@ Unit: Modelバリデーション、アクセサ（80%）
 例: test_store_validation_fails_can_return_errors
 
 📱 UI/UX規約
-Bootstrap 5 + レスポンシブ必須
+Bootstrap 5 + tailwind + レスポンシブ必須
 案件一覧: 表形式 + 分頁 + 検索フィルタ
 共通ヘッダー: [ロゴ][ダッシュ][案件][請求]
 ボタン: [新規][編集][削除]（確認ダイアログ）
