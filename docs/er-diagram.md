@@ -10,6 +10,8 @@ erDiagram
         string name
         string email
         string password
+        timestamp email_verified_at "メール確認日時(nullable)"
+        string remember_token "ログイン保持トークン"
         timestamp created_at
         timestamp updated_at
     }
