@@ -62,10 +62,10 @@ app/
   - ControllerはUseCase呼び出しのみ
 
 ## 📂 ブランチ命名規則
-feature/projects-crud # 新機能
-docs/01-readme-setup # ドキュメント
-ddd/domain-project-entity # DDD実装
-bugfix/search-filter # 修正
+feature/{issue番号}-{概要} # 新機能
+spec/{issue番号}-{概要} # ドキュメント
+fix/{issue番号}-{概要}
+hotfix/{概要}
 test/crud-coverage # テスト追加
 
 ## 📋 Issueテンプレート（厳守形式）
