@@ -48,11 +48,6 @@ cd freelance-fms
 cp .env.example .env
 ./vendor/bin/sail up -d --build # 初回10分
 ./vendor/bin/sail artisan key:generate
-./vendor/bin/sail artisan migrategit clone <リポジトリURL>
-cd freelance-fms
-cp .env.example .env
-./vendor/bin/sail up -d --build # 初回10分
-./vendor/bin/sail artisan key:generate
 ./vendor/bin/sail artisan migrate
 ```
 
