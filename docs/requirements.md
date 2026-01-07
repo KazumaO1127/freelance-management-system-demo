@@ -8,7 +8,7 @@
 *   **ターゲット**: ITフリーランス、フリーランスエージェント
 *   **主要機能**: 案件管理、契約管理、請求管理、売上予測
 
-## 0. 変更サマリ（今回の方針変更）
+## 2. 変更サマリ（今回の方針変更）
 
 このプロジェクトは「プラグマティックDDD」を採用します。コアドメイン（projects）に対して DDD + Clean Architecture を厳格に適用し、周辺機能（認証や単純CRUDの管理UI等）は既存の Laravel 慣習を維持する方針です。
 
@@ -25,9 +25,9 @@
 - `app/Domain` / `app/Application` / `app/Infrastructure` の雛形がリポジトリに追加されていること
 - 移行手順が docs に記載され、PR にて検証可能であること
 
-## 2. 機能要件 (Functional Requirements)
+## 3. 機能要件 (Functional Requirements)
 
-### 2.1 機能一覧とステータス
+### 3.1 機能一覧とステータス
 | ID | カテゴリ | 機能名 | 詳細 | ステータス |
 | :--- | :--- | :--- | :--- | :--- |
 | **P01** | **案件管理** | **案件一覧** | 案件の表形式表示、検索フィルタ、ページネーション | 🚧 **開発中** |
@@ -44,7 +44,7 @@
     *   🚧 開発中: 現在のSprintで対応中
     *   📅 次スプリント: 次回以降の実装予定
 
-### 2.2 ドメインモデル要件 (DDD)
+### 3.2 ドメインモデル要件 (DDD)
 *   **Project (Entity)**
     *   属性: タイトル, クライアント名, 単価, 期間, ステータス, メモ
     *   振る舞い: `calculateRevenue()`(売上計算), `changeStatus()`(ステータス遷移ロジック)
@@ -53,9 +53,9 @@
     *   `Money`: 金額計算、通貨、不変性の保証
     *   `Period`: 期間計算（開始日〜終了日）、有効性チェック
 
-## 3. 非機能要件 (Non-Functional Requirements)
+## 4. 非機能要件 (Non-Functional Requirements)
 
-### 3.1 技術スタックとアーキテクチャ
+### 4.1 技術スタックとアーキテクチャ
 *   **Backend**: Laravel 11 + PHP 8.3
 *   **Architecture**: Domain-Driven Design (DDD) + Clean Architecture
     *   `Domain`: 純粋なビジネスロジック (依存なし)
@@ -65,16 +65,16 @@
 *   **Database**: PostgreSQL 16
 *   **Cache/Session**: Redis 7
 
-### 3.2 品質・運用
+### 4.2 品質・運用
 *   **テストカバレッジ**: 80%以上必須 (Branch Coverage)
 *   **CI/CD**: GitHub Actionsによる自動テスト・Lint実行
 *   **コード品質**: PHP CS Fixer + Laravel Pint準拠
 *   **デプロイ**: Railway (本番運用想定)
 *   **コンテナ化**: Laravel Sail (Docker) による完全な開発環境再現性
 
-## 4. テスト戦略 (Test Strategy)
+## 5. テスト戦略 (Test Strategy)
 
-### 4.1 テストレベルとスコープ
+### 5.1 テストレベルとスコープ
 | レベル | 対象 (Layer) | ツール | 目的・範囲 | 目標カバレッジ |
 | :--- | :--- | :--- | :--- | :--- |
 | **Unit** | **Domain** | PHPUnit | Entity/ValueObjectの振る舞い、ビジネスロジックの正確性検証 | 100% |
@@ -83,12 +83,12 @@
 | **Feature** | **Presentation** | PHPUnit | Controllerのエンドポイント検証、リクエスト/レスポンス形式、HTTPステータス | 100% |
 | **E2E** | **UI** | Laravel Dusk | 重要なユーザーシナリオ (ログイン〜案件作成等) のブラウザ操作検証 | 主要シナリオ |
 
-### 4.2 テスト自動化ルール
+### 5.2 テスト自動化ルール
 *   PR作成時: GitHub Actionsにて全テスト実行
 *   マージ条件: テスト全通過 (Green) かつ カバレッジ80%以上
 *   命名規則: `test_[method]_[scenario]_can_[expected_result]`
     *   例: `test_store_validation_fails_can_return_errors`
 
-### 4.3 テストデータ
+### 5.3 テストデータ
 *   Laravel Factory/Seederを使用し、再現可能なテストデータを管理する。
 *   `DatabaseSeeder` にデモ用初期データを完備し、`sail up` 直後にデモ可能な状態にする。
