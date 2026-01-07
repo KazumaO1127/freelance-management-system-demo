@@ -2,9 +2,9 @@
 
 ## 📋 プロジェクト概要
 **FMS（フリーランスマネジメントシステム）ミニ版**をLaravel 11 + pragmatic DDD + クリーンアーキテクチャで構築。
-ITフリーランス/エージェント向け案件管理SaaSデモ。
+ITフリーランス/クライアント様向け案件管理SaaSデモ。
 
-**ポートフォリオ目的**: エージェント面談で即デモ可能な完成品。
+**ポートフォリオ目的**: クライアント様面談で即デモ可能な完成品。
 
 ## 🛠️ 技術スタック（厳守）
 Backend: Laravel 11 + PHP 8.3 + pragmatic DDD/Clean Architecture
@@ -135,6 +135,6 @@ Repository優先（EloquentはInfrastructure限定）
 
 🎯 Copilot生成時の前提
 常に「実務仕様FMSポートフォリオ」を意識
-エージェントが5分で理解→デモ可能なコード
+クライアント様が5分で理解→デモ可能なコード
 テスト＋CI/CD＋ドキュメント全て含める
 Laravel 11最新規約厳守＋pragmatic DDDの純粋性を両立
