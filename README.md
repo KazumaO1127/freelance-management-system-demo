@@ -11,13 +11,18 @@ ITフリーランス／エージェント向け案件・契約・請求を一元
 ## �️ アーキテクチャの特徴
 本プロジェクトは**ポートフォリオとして設計力を示すため**、Laravelの標準構成ではなく、**DDD（ドメイン駆動設計） + クリーンアーキテクチャ**を採用しています。
 
-### ディレクトリ構成
+### ディレクトリ構成（要約）
+このリポジトリは「実務的プラグマティックDDD」方針を採用しています。詳細は `docs/ddd-architecture.md` および `docs/domain-design.md` を参照してください。
+
 ```text
 app/
-├── Domain/         # 純粋なビジネスロジック (Entity, ValueObject)
-├── Application/    # ユースケース (UseCase, DTO)
-├── Infrastructure/ # データの永続化 (Repository実装)
-└── Http/           # 入出力 (Controller, FormRequest)
+├── Domain/         # コアドメイン（Entity, ValueObject, Domain Services）
+├── Application/    # ユースケース（UseCases, DTOs）
+├── Infrastructure/ # 実装（Eloquent Adapter 等）
+└── Http/           # プレゼンテーション（Controller, Requests, Views）
+
+# 互換レイヤー
+app/Models/         # Eloquent ベースの既存モデル（当面の Adapter として保持）
 ```
 
 ### 設計ポリシー
@@ -98,6 +103,10 @@ Deploy: Railway (本番想定: AWS EB/ECS)
 
 ## 📚 ドキュメント
 - [要件定義](docs/requirements.md)
-- [ER図](docs/er-diagram.md) 
+- [DDD アーキテクチャ（概要）](docs/ddd-architecture.md)
+- [Domain 設計（projects）](docs/domain-design.md)
+- [ER図](docs/er-diagram.md)
 - [画面ラフ](docs/wireframes/)
 - [CI/CD](docs/ci-cd.md)
+
+※ 詳細な設計ルールと移行手順は上記の `docs/ddd-architecture.md` と `docs/domain-design.md` にまとめられています。README は要約を提供します。
