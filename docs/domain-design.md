@@ -31,7 +31,7 @@
 インターフェイスを Domain に定義します。
 
 例:
-```
+```php
 interface ProjectRepositoryInterface
 {
     public function save(Project $project): void;
