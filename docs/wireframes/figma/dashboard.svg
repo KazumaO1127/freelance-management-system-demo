@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="820" viewBox="0 0 1200 820">
+  <g id="layer-background" data-name="layer/background">
+    <rect width="1200" height="820" fill="#ffffff" stroke="#e5e7eb"/>
+  </g>
+
+  <g id="layer-header" data-name="layer/header">
+    <text x="24" y="40" font-family="Arial" font-size="20" fill="#0f172a">ダッシュボード</text>
+  </g>
+
+  <g id="layer-kpis" data-name="layer/kpis">
+    <g id="kpi-open" data-name="layer/kpi/open">
+      <rect x="24" y="64" width="360" height="96" rx="8" fill="#2563eb"/>
+      <text x="40" y="110" font-family="Arial" font-size="16" fill="#ffffff">進行中案件: 8</text>
+    </g>
+    <g id="kpi-revenue" data-name="layer/kpi/revenue">
+      <rect x="404" y="64" width="360" height="96" rx="8" fill="#10b981"/>
+      <text x="420" y="110" font-family="Arial" font-size="16" fill="#ffffff">今月収益: ¥1,200,000</text>
+    </g>
+    <g id="kpi-unbilled" data-name="layer/kpi/unbilled">
+      <rect x="784" y="64" width="360" height="96" rx="8" fill="#f59e0b"/>
+      <text x="800" y="110" font-family="Arial" font-size="16" fill="#ffffff">未請求: ¥300,000</text>
+    </g>
+  </g>
+
+  <g id="layer-graph" data-name="layer/graph">
+    <rect x="24" y="176" width="740" height="300" rx="8" fill="#f3f4f6" stroke="#e5e7eb"/>
+    <text x="40" y="200" font-family="Arial" font-size="14" fill="#6b7280">月別収益（ライン）</text>
+  </g>
+
+  <g id="layer-recent-activity" data-name="layer/recent-activity">
+    <rect x="780" y="176" width="384" height="300" rx="8" fill="#ffffff" stroke="#e5e7eb"/>
+    <text x="796" y="200" font-family="Arial" font-size="14" fill="#0f172a">最近の活動</text>
+    <text x="796" y="228" font-family="Arial" font-size="13" fill="#6b7280">2025-01-05: API開発が 'working' に</text>
+    <text x="796" y="250" font-family="Arial" font-size="13" fill="#6b7280">2025-01-04: ランディングがクライアント承認</text>
+  </g>
+
+  <g id="layer-short-list" data-name="layer/short-list">
+    <rect x="24" y="492" width="1140" height="200" rx="8" fill="#ffffff" stroke="#e5e7eb"/>
+    <text x="40" y="520" font-family="Arial" font-size="14" fill="#0f172a">進行中案件（短縮一覧）</text>
+    <text x="40" y="548" font-family="Arial" font-size="13" fill="#6b7280">101 API開発案件 — Acme Ltd. — ¥120,000</text>
+    <text x="40" y="572" font-family="Arial" font-size="13" fill="#6b7280">99 デザイン改修 — Gamma — ¥60,000</text>
+  </g>
+
+</svg>
