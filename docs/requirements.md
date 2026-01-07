@@ -8,6 +8,23 @@
 *   **ターゲット**: ITフリーランス、フリーランスエージェント
 *   **主要機能**: 案件管理、契約管理、請求管理、売上予測
 
+## 0. 変更サマリ（今回の方針変更）
+
+このプロジェクトは「実務的プラグマティックDDD」を採用します。コアドメイン（projects）に対して DDD + Clean Architecture を厳格に適用し、周辺機能（認証や単純CRUDの管理UI等）は既存の Laravel 慣習を維持する方針です。
+
+目的:
+- クライアントに対して設計思想と品質を短時間で示せること
+- レガシーなフレームワーク依存を段階的に削減し、テスト容易性と移植性を高めること
+
+適用範囲（Pragmatic）:
+- 厳格適用: `app/Domain` に置くべきコアエンティティ（Project 等）と ValueObject、RepositoryInterface、UseCase
+- 慣習維持: `app/Models` や factories 等のフレームワーク依存コードは互換層（Adapter）として当面維持
+
+受け入れ基準（追記）:
+- Domain の Unit テスト（Project の振る舞い）が通ること
+- `app/Domain` / `app/Application` / `app/Infrastructure` の雛形がリポジトリに追加されていること
+- 移行手順が docs に記載され、PR にて検証可能であること
+
 ## 2. 機能要件 (Functional Requirements)
 
 ### 2.1 機能一覧とステータス
