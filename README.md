@@ -103,7 +103,7 @@ Deploy: Railway (本番想定: AWS EB/ECS)
 
 ## 📚 ドキュメント
 - [要件定義](docs/requirements.md)
-- [DDD アーキテクチャ（概要）](docs/ddd-architecture.md)
+- [DDD + クリーンアーキテクチャ（概要）](docs/ddd-architecture.md)
 - [Domain 設計（projects）](docs/domain-design.md)
 - [ER図](docs/er-diagram.md)
 - [画面ラフ](docs/wireframes/)
