@@ -1,13 +1,13 @@
 # 🎯 Freelance Management System Demo - Copilot Instructions
 
 ## 📋 プロジェクト概要
-**FMS（フリーランスマネジメントシステム）ミニ版**をLaravel 11 + DDD + クリーンアーキテクチャで構築。
+**FMS（フリーランスマネジメントシステム）ミニ版**をLaravel 11 + pragmatic DDD + クリーンアーキテクチャで構築。
 ITフリーランス/エージェント向け案件管理SaaSデモ。
 
 **ポートフォリオ目的**: エージェント面談で即デモ可能な完成品。
 
 ## 🛠️ 技術スタック（厳守）
-Backend: Laravel 11 + PHP 8.3 + DDD/Clean Architecture
+Backend: Laravel 11 + PHP 8.3 + pragmatic DDD/Clean Architecture
 DB: PostgreSQL 16（Sail）
 Cache/Session: Redis 7
 Frontend: Blade + Bootstrap 5
@@ -16,38 +16,18 @@ Docker: Laravel Sail
 CI/CD: GitHub Actions
 Deploy: Railway（AWS EB想定）
 
-## 🏗️ アーキテクチャ（厳守）
-Domain-Driven Design (DDD) + Clean Architecture
-├── Domain/ # ビジネスロジック（純粋）
-├── Application/ # ユースケース
-├── Infrastructure/ # DB/外部API
-└── Presentation/ # Controller/Route
-
-ディレクトリ構成:
-app/
-├── Domain/
-│ ├── Models/ # Entity（Project, Client, Invoice）
-│ ├── ValueObjects/ # 単価、期間、ステータス
-│ └── Services/ # ドメインサービス
-├── Application/
-│ ├── UseCases/ # CreateProjectUseCase
-│ └── DTOs/ # ProjectCreateDTO
-├── Infrastructure/
-│ └── Repositories/ # EloquentProjectRepository
-└── Http/
-  ├── Controllers/ # 薄い（UseCase呼び出しのみ）
-  └── Requests/ # リクエストバリデーション
-
 ## 🎯 開発方針（必ず守る）
 ✅ Trunk Based Development
 ✅ main = 常にデモ可能状態
 ✅ feature/* ブランチ（1-3日完結）
 ✅ 全てPR経由マージ
 ✅ テスト80% + Actions緑必須
-✅ DDD規約厳守（Entity/ValueObject/Service）
+✅ pragmatic DDD規約厳守（Entity/ValueObject/Service）
 
-## 🗄️ DDD設計規約（Copilot厳守）
-1. Entity: Project（ID＋振る舞い）
+注: 本プロジェクトでは「プラグマティックDDD」を採用します。つまり、DDD/クリーンアーキテクチャの原則はコアドメイン（projects 等）に厳格に適用し、認証や単純CRUDのような周辺機能は既存の Laravel 慣習を維持して段階的に移行してください。`app/Models` は互換レイヤー（Adapter）として当面保持することを許容します。
+
+## 🗄️ pragmatic DDD設計規約（Copilot厳守）
+※ 注意: 以下の規約は「コアドメイン」に適用します。周辺機能は簡素化して Laravel 標準のままにすることを許容します。
   - 単なるデータコンテナNG
   - calculateRevenue(), changeStatus()実装必須
 
@@ -57,6 +37,7 @@ app/
 
 1. Repository: ProjectRepositoryInterface + Eloquent実装
   - Controller直DBアクセス禁止
+   - Eloquent 実装は `app/Infrastructure` に限定し、既存の `app/Models` は互換性保持のための Adapter として当面残す。
 
 1. UseCase: CreateProjectUseCase
   - ControllerはUseCase呼び出しのみ
@@ -156,4 +137,4 @@ Repository優先（EloquentはInfrastructure限定）
 常に「実務仕様FMSポートフォリオ」を意識
 エージェントが5分で理解→デモ可能なコード
 テスト＋CI/CD＋ドキュメント全て含める
-Laravel 11最新規約厳守＋DDDの純粋性を両立
+Laravel 11最新規約厳守＋pragmatic DDDの純粋性を両立
