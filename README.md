@@ -1,15 +1,17 @@
 # フリーランス案件管理システム
 
-[![Tests](https://github.com/KazumaO1127/freelance-fms/workflows/Test/badge.svg)](https://github.com/KazumaO1127/freelance-fms/actions)
 [![Laravel](https://img.shields.io/badge/Laravel-11-FF2D20?logo=laravel)](https://laravel.com)
+<!--
+[![Tests](https://github.com/KazumaO1127/freelance-fms/workflows/Test/badge.svg)](https://github.com/KazumaO1127/freelance-fms/actions)
 
 ![デプロイ済み](https://railway.app/badge/YOUR_SERVICE.svg)
+--->
 
 ITフリーランス／クライアント様向け案件・契約・請求を一元管理する業務ミニSaaS。
-**完全Docker環境＋CI/CD＋テスト自動化済み**。
+**完全Docker環境＋CI/CD＋テスト自動化対応**。
 
-## �️ アーキテクチャの特徴
-本プロジェクトは**ポートフォリオとして設計力を示すため**、Laravelの標準構成ではなく、**DDD（ドメイン駆動設計） + クリーンアーキテクチャ**を採用しています。
+## アーキテクチャの特徴
+本プロジェクトは**ポートフォリオ兼、実務向けの学習目的のため**、Laravelの標準構成ではなく、**DDD（ドメイン駆動設計） + クリーンアーキテクチャ**を採用しています。
 
 ### ディレクトリ構成
 このリポジトリは「実務的プラグマティックDDD」方針を採用しています（ディレクトリ構成の要約）。詳細は `docs/ddd-architecture.md` および `docs/domain-design.md` を参照してください。
@@ -30,9 +32,10 @@ app/Models/         # Eloquent ベースの既存モデル（当面の Adapter �
 - **Rich Domain Model**: データコンテナではなく、振る舞いを持つエンティティ
 - **Dependency Injection**: 依存性の逆転によるテスタビリティの確保
 
-## �🎯 デモ
+## 🎯 デモ
 - **ローカル**: `http://localhost/projects`
-- **公開**: `https://freelance-fms.up.railway.app/projects`
+- **公開版は準備中**
+<!-- - **公開**: `https://freelance-fms.up.railway.app/projects` -->
 
 ## 機能概要
 - 案件管理（CRUD、ステータス管理、検索）
