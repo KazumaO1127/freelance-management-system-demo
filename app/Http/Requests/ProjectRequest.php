@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Enum as EnumRule;
-use App\Enums\ProjectStatus;
+use Illuminate\Validation\Rule;
+use App\Domain\ValueObjects\ProjectStatus;
 
 abstract class ProjectRequest extends FormRequest
 {
@@ -21,7 +21,7 @@ abstract class ProjectRequest extends FormRequest
             'unit_price' => 'required|integer|min:0',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
-            'status' => ['required', new EnumRule(ProjectStatus::class)],
+            'status' => ['required', Rule::in(ProjectStatus::values())],
             'memo' => 'nullable|string',
         ];
     }

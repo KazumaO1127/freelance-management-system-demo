@@ -24,7 +24,7 @@
                 <td>{{ $project->client_name }}</td>
                 <td>{{ number_format($project->unit_price) }}</td>
                 <td>{{ optional($project->start_date)->format('Y-m-d') }} ~ {{ optional($project->end_date)->format('Y-m-d') }}</td>
-                <td>{{ $project->status }}</td>
+                <td>{{ $project->status_label }}</td>
                 <td class="text-end">
                     <a href="{{ route('projects.edit', $project) }}" class="btn btn-sm btn-outline-secondary">編集</a>
                     <form action="{{ route('projects.destroy', $project) }}" method="POST" style="display:inline-block" onsubmit="return confirm('削除しますか？')">

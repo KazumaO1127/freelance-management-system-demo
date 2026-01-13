@@ -17,7 +17,7 @@ class EloquentProjectRepository implements ProjectRepositoryInterface
         $model->unit_price = $project->unit_price;
         $model->start_date = $project->start_date;
         $model->end_date = $project->end_date;
-        $model->status = $project->status->value;
+        $model->status = $project->status;
         $model->memo = $project->memo;
         $model->user_id = $project->user_id;
         $model->save();

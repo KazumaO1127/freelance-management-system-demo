@@ -2,8 +2,6 @@
 
 namespace App\Application\DTOs;
 
-use App\Enums\ProjectStatus;
-
 final class ProjectDTO
 {
     public function __construct(
@@ -13,7 +11,7 @@ final class ProjectDTO
         public readonly int $unit_price,
         public readonly ?string $start_date,
         public readonly ?string $end_date,
-        public readonly ProjectStatus $status,
+        public readonly string $status,
         public readonly ?string $memo,
         public readonly ?int $user_id = null,
     ) {}
@@ -27,7 +25,7 @@ final class ProjectDTO
             (int)($data['unit_price'] ?? 0),
             $data['start_date'] ?? null,
             $data['end_date'] ?? null,
-            ProjectStatus::from($data['status']),
+            (string)($data['status'] ?? ''),
             $data['memo'] ?? null,
             $data['user_id'] ?? null,
         );
