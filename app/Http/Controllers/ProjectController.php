@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProjectStoreRequest;
 use App\Http\Requests\ProjectUpdateRequest;
 use App\Models\Project;
-use App\Application\DTOs\ProjectDTO;
+use App\Application\DTOs\ProjectCreateDTO;
+use App\Domain\Models\Project as DomainProject;
 use App\Application\UseCases\CreateProjectUseCase;
 use App\Application\UseCases\ListProjectsUseCase;
 use App\Application\UseCases\UpdateProjectUseCase;
@@ -40,7 +41,7 @@ class ProjectController extends Controller
 
     public function store(ProjectStoreRequest $request): RedirectResponse
     {
-        $dto = ProjectDTO::fromArray($request->validated());
+        $dto = ProjectCreateDTO::fromArray($request->validated());
         $this->createProjectUseCase->execute($dto);
         return redirect()->route('projects.index')->with('success', 'Project created.');
     }
@@ -54,7 +55,7 @@ class ProjectController extends Controller
     {
         $data = $request->validated();
         $data['id'] = $project->id;
-        $dto = ProjectDTO::fromArray($data);
+        $dto = \App\Application\DTOs\ProjectUpdateDTO::fromArray($data);
         $this->updateProjectUseCase->execute($dto);
         return redirect()->route('projects.index')->with('success', 'Project updated.');
     }

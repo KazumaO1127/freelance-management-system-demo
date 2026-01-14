@@ -2,33 +2,43 @@
 
 namespace App\Infrastructure\Repositories;
 
-use App\Application\DTOs\ProjectDTO;
+use App\Domain\Models\Project as DomainProject;
 use App\Domain\Repositories\ProjectRepositoryInterface;
-use App\Models\Project;
+use App\Models\Project as EloquentProject;
 use Illuminate\Contracts\Pagination\Paginator;
 
 class EloquentProjectRepository implements ProjectRepositoryInterface
 {
-    public function save(ProjectDTO $project): void
+    public function save(DomainProject $project): DomainProject
     {
-        $model = $project->id ? Project::find($project->id) : new Project();
-        $model->title = $project->title;
-        $model->client_name = $project->client_name;
-        $model->unit_price = $project->unit_price;
-        $model->start_date = $project->start_date;
-        $model->end_date = $project->end_date;
-        $model->status = $project->status;
-        $model->memo = $project->memo;
-        $model->user_id = $project->user_id;
+        $pr = $project->toPrimitives();
+        $model = $pr['id'] ? EloquentProject::find($pr['id']) : new EloquentProject();
+        $model->fill($pr);
         $model->save();
+
+        $saved = EloquentProject::find($model->id);
+        $primitives = [
+            'id' => $saved->id,
+            'title' => $saved->title,
+            'client_name' => $saved->client_name,
+            'unit_price' => $saved->unit_price,
+            'start_date' => $saved->start_date?->format('Y-m-d'),
+            'end_date' => $saved->end_date?->format('Y-m-d'),
+            'status' => $saved->status,
+            'memo' => $saved->memo,
+            'user_id' => $saved->user_id,
+        ];
+
+        return DomainProject::fromPrimitives($primitives);
     }
 
-    public function findById(int $id): ?ProjectDTO
+    public function findById(int $id): ?DomainProject
     {
-        $m = Project::find($id);
+        $m = EloquentProject::find($id);
         if (! $m) return null;
 
-        return ProjectDTO::fromArray([
+        // Map Eloquent -> primitives -> DomainProject
+        $primitives = [
             'id' => $m->id,
             'title' => $m->title,
             'client_name' => $m->client_name,
@@ -38,16 +48,18 @@ class EloquentProjectRepository implements ProjectRepositoryInterface
             'status' => $m->status,
             'memo' => $m->memo,
             'user_id' => $m->user_id,
-        ]);
+        ];
+
+        return DomainProject::fromPrimitives($primitives);
     }
 
     public function paginate(int $perPage = 10): Paginator
     {
-        return Project::orderBy('created_at', 'desc')->paginate($perPage);
+        return EloquentProject::orderBy('created_at', 'desc')->paginate($perPage);
     }
 
     public function delete(int $id): void
     {
-        Project::destroy($id);
+        EloquentProject::destroy($id);
     }
 }

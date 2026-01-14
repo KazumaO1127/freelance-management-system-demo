@@ -2,7 +2,8 @@
 
 namespace App\Application\UseCases;
 
-use App\Application\DTOs\ProjectDTO;
+use App\Application\DTOs\ProjectCreateDTO;
+use App\Domain\Models\Project as DomainProject;
 use App\Domain\Repositories\ProjectRepositoryInterface;
 
 final class CreateProjectUseCase
@@ -11,8 +12,9 @@ final class CreateProjectUseCase
     {
     }
 
-    public function execute(ProjectDTO $dto): void
+    public function execute(ProjectCreateDTO $dto): DomainProject
     {
-        $this->repo->save($dto);
+        $domain = DomainProject::fromPrimitives($dto->toPrimitives());
+        return $this->repo->save($domain);
     }
 }
