@@ -40,7 +40,7 @@ class ProjectController extends Controller
     {
         $dto = ProjectCreateDTO::fromArray($request->validated());
         $this->createProjectUseCase->execute($dto);
-        return redirect()->route('projects.index')->with('success', 'Project created.');
+        return redirect()->route('projects.index')->with('success', '案件を作成しました。');
     }
 
     public function edit(int $project): View
@@ -56,12 +56,12 @@ class ProjectController extends Controller
         $data['id'] = $project;
         $dto = \App\Application\DTOs\ProjectUpdateDTO::fromArray($data);
         $this->updateProjectUseCase->execute($dto);
-        return redirect()->route('projects.index')->with('success', 'Project updated.');
+        return redirect()->route('projects.index')->with('success', '案件を更新しました。');
     }
 
     public function destroy(int $project): RedirectResponse
     {
         $this->deleteProjectUseCase->execute($project);
-        return redirect()->route('projects.index')->with('success', 'Project deleted.');
+        return redirect()->route('projects.index')->with('success', '案件を削除しました。');
     }
 }
