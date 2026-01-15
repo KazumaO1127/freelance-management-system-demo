@@ -28,7 +28,7 @@
     <div class="col-md-6 mb-3">
         <label class="form-label">開始日</label>
         <input type="date" name="start_date"
-            value="{{ old('start_date', optional($project->start_date)->format('Y-m-d') ?? '') }}" class="form-control">
+            value="{{ old('start_date', optional($project->start_date)->format('Y-m-d')) }}" class="form-control">
         @error('start_date')
             <div class="text-danger small">{{ $message }}</div>
         @enderror
@@ -36,7 +36,7 @@
     <div class="col-md-6 mb-3">
         <label class="form-label">終了日</label>
         <input type="date" name="end_date"
-            value="{{ old('end_date', optional($project->end_date)->format('Y-m-d') ?? '') }}" class="form-control">
+            value="{{ old('end_date', optional($project->end_date)->format('Y-m-d')) }}" class="form-control">
         @error('end_date')
             <div class="text-danger small">{{ $message }}</div>
         @enderror
