@@ -93,7 +93,7 @@ final class Project
             'unit_price' => $this->unitPrice,
             'start_date' => $this->startDate?->format('Y-m-d'),
             'end_date' => $this->endDate?->format('Y-m-d'),
-                'status' => $this->status->value(),
+            'status' => $this->status->value(),
             'memo' => $this->memo,
             'user_id' => $this->userId,
         ];
