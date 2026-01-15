@@ -72,6 +72,11 @@ class ProjectController extends Controller
 
     public function destroy(int $project): RedirectResponse
     {
+        $vm = $this->getProjectUseCase->execute($project);
+        if (! $vm) {
+            abort(404);
+        }
+
         $this->deleteProjectUseCase->execute($project);
 
         return redirect()->route('projects.index')->with('success', '案件を削除しました。');
