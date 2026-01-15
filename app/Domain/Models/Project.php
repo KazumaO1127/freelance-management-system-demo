@@ -28,6 +28,19 @@ final class Project
         ?string $memo,
         ?int $userId
     ) {
+        // Domain invariants / validation
+        if (trim($title) === '') {
+            throw new \InvalidArgumentException('Project title must not be empty');
+        }
+
+        if ($unitPrice < 0) {
+            throw new \InvalidArgumentException('Unit price must be non-negative');
+        }
+
+        if ($startDate !== null && $endDate !== null && $startDate > $endDate) {
+            throw new \InvalidArgumentException('Start date must be before or equal to end date');
+        }
+
         $this->id = $id;
         $this->title = $title;
         $this->clientName = $clientName;
@@ -46,14 +59,14 @@ final class Project
 
         return new self(
             $data['id'] ?? null,
-            $data['title'],
-            $data['client_name'],
+            $data['title'] ?? '',
+            $data['client_name'] ?? '',
             (int)($data['unit_price'] ?? 0),
             $start,
             $end,
             ProjectStatus::from($data['status'] ?? 'contact'),
             $data['memo'] ?? null,
-            $data['user_id'] ?? null,
+            $data['user_id'] ?? null
         );
     }
 
