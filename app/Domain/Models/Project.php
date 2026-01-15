@@ -103,15 +103,11 @@ final class Project
             return 0;
         }
 
-        // Compute inclusive day count in a robust way using timestamps
+        // Compute inclusive day count using DateTime::diff to respect timezones
         $start = $this->startDate->setTime(0, 0, 0);
         $end = $this->endDate->setTime(0, 0, 0);
 
-        $diffSeconds = $end->getTimestamp() - $start->getTimestamp();
-        $days = (int) floor($diffSeconds / 86400) + 1;
-        if ($days < 0) {
-            $days = 0;
-        }
+        $days = (int) $start->diff($end)->format('%a') + 1;
 
         if ($unit === 'daily') {
             return $this->unitPrice * $days;
