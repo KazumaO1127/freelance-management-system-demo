@@ -52,6 +52,16 @@ final class Project
         $this->userId = $userId;
     }
 
+    /**
+     * 配列（プリミティブ）から `Project` エンティティを生成します。
+     *
+     * 期待されるキー: `id`, `title`, `client_name`, `unit_price`, `start_date`, `end_date`, `status`, `memo`, `user_id`。
+     * 日付文字列が与えられた場合は `DateTimeImmutable` に変換します。未設定や空文字は null として扱います。
+     *
+     * @param  array  $data  プリミティブ配列
+     *
+     * @throws \Exception DateTimeImmutable の生成エラーが発生した場合
+     */
     public static function fromPrimitives(array $data): self
     {
         $start = ! empty($data['start_date']) ? new DateTimeImmutable($data['start_date']) : null;
@@ -82,7 +92,10 @@ final class Project
      *
      * 注: コンストラクタは既に開始日が終了日以下であることを（両方設定されている場合）検証します。
      *
-     * @param  string  $unit  One of 'daily'|'monthly'
+     * @param  string  $unit  計算単位。'daily' または 'monthly'
+     * @return int 計算された収益（整数）
+     *
+     * @throws \InvalidArgumentException 未知の単位が指定された場合
      */
     public function calculateRevenue(string $unit = 'daily'): int
     {
@@ -122,6 +135,16 @@ final class Project
         throw new \InvalidArgumentException('Unknown unit for revenue calculation: '.$unit);
     }
 
+    /**
+     * ステータスを変更します（後方への遷移は許可されません）。
+     *
+     * 新しいステータスが既存の順序より前にある場合は `DomainException` を投げます。
+     * 未知のステータス値が与えられた場合も例外を投げます。
+     *
+     * @param  ProjectStatus  $newStatus  新しいステータス
+     *
+     * @throws \DomainException 無効な遷移または未知のステータスの場合
+     */
     public function changeStatus(ProjectStatus $newStatus): void
     {
         $order = ProjectStatus::values();
@@ -140,6 +163,13 @@ final class Project
         $this->status = $newStatus;
     }
 
+    /**
+     * エンティティをプリミティブな配列に変換します。
+     *
+     * 永続化やシリアライズ時に用いる形式で、日付は `Y-m-d` 文字列にフォーマットされます。
+     *
+     * @return array プリミティブ配列
+     */
     public function toPrimitives(): array
     {
         return [
@@ -156,11 +186,18 @@ final class Project
     }
 
     // getters used by callers
+
+    /**
+     * エンティティの識別子を返します。未保存の場合は null を返します。
+     */
     public function id(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * プロジェクトのタイトルを返します。
+     */
     public function title(): string
     {
         return $this->title;
