@@ -70,13 +70,57 @@ final class Project
         );
     }
 
-    public function calculateRevenue(): int
+    /**
+    * プロジェクトの収益を計算します。
+    *
+    * デフォルトでは `unitPrice` を日額とみなし、
+    * `日額 * 含む日数（開始日〜終了日、両端含む）` を返します。
+    *
+    * サポートされている単位:
+    * - "daily": 開始日と終了日の間の含む日数を使用
+    * - "monthly": 開始月から終了月までの含む月数をカウント
+    *
+    * 注: コンストラクタは既に開始日が終了日以下であることを（両方設定されている場合）検証します。
+     *
+     * @param string $unit One of 'daily'|'monthly'
+     * @return int
+     */
+    public function calculateRevenue(string $unit = 'daily'): int
     {
         if ($this->startDate === null || $this->endDate === null) {
             return 0;
         }
-        $days = $this->endDate->diff($this->startDate)->days + 1;
-        return $this->unitPrice * $days;
+
+        // Compute inclusive day count in a robust way using timestamps
+        $start = $this->startDate->setTime(0, 0, 0);
+        $end = $this->endDate->setTime(0, 0, 0);
+
+        $diffSeconds = $end->getTimestamp() - $start->getTimestamp();
+        $days = (int)floor($diffSeconds / 86400) + 1;
+        if ($days < 0) {
+            $days = 0;
+        }
+
+        if ($unit === 'daily') {
+            return $this->unitPrice * $days;
+        }
+
+        if ($unit === 'monthly') {
+            // Inclusive month count: e.g., 2026-01-15 -> 2026-03-14 = 3 months (Jan, Feb, Mar)
+            $startYear = (int)$start->format('Y');
+            $startMonth = (int)$start->format('n');
+            $endYear = (int)$end->format('Y');
+            $endMonth = (int)$end->format('n');
+
+            $months = ($endYear - $startYear) * 12 + ($endMonth - $startMonth) + 1;
+            if ($months < 0) {
+                $months = 0;
+            }
+
+            return $this->unitPrice * $months;
+        }
+
+        throw new \InvalidArgumentException('Unknown unit for revenue calculation: ' . $unit);
     }
 
     public function changeStatus(ProjectStatus $newStatus): void
