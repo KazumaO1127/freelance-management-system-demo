@@ -9,4 +9,3 @@ class ProjectStoreRequest extends ProjectRequest
         return $this->commonRules();
     }
 }
-

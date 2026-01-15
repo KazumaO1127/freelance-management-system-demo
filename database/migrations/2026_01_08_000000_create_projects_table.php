@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class() extends Migration
+return new class extends Migration
 {
     public function up(): void
     {
@@ -16,7 +16,7 @@ return new class() extends Migration
             $table->integer('unit_price')->unsigned()->default(0);
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
-            $table->enum('status', ['contact','negotiation','contracted','working','completed'])->default('contact');
+            $table->enum('status', ['contact', 'negotiation', 'contracted', 'working', 'completed'])->default('contact');
             $table->text('memo')->nullable();
             $table->timestamps();
         });

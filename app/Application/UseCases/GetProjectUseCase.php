@@ -7,14 +7,14 @@ use App\Domain\Repositories\ProjectRepositoryInterface;
 
 final class GetProjectUseCase
 {
-    public function __construct(private ProjectRepositoryInterface $repo)
-    {
-    }
+    public function __construct(private ProjectRepositoryInterface $repo) {}
 
     public function execute(int $id): ?ProjectViewModel
     {
         $domain = $this->repo->findById($id);
-        if (! $domain) return null;
+        if (! $domain) {
+            return null;
+        }
 
         $pr = $domain->toPrimitives();
 

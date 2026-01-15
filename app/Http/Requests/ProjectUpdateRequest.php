@@ -9,4 +9,3 @@ class ProjectUpdateRequest extends ProjectRequest
         return $this->commonRules();
     }
 }
-

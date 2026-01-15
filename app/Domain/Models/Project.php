@@ -2,8 +2,8 @@
 
 namespace App\Domain\Models;
 
-use DateTimeImmutable;
 use App\Domain\ValueObjects\ProjectStatus;
+use DateTimeImmutable;
 
 final class Project
 {
@@ -54,14 +54,14 @@ final class Project
 
     public static function fromPrimitives(array $data): self
     {
-        $start = !empty($data['start_date']) ? new DateTimeImmutable($data['start_date']) : null;
-        $end = !empty($data['end_date']) ? new DateTimeImmutable($data['end_date']) : null;
+        $start = ! empty($data['start_date']) ? new DateTimeImmutable($data['start_date']) : null;
+        $end = ! empty($data['end_date']) ? new DateTimeImmutable($data['end_date']) : null;
 
         return new self(
             $data['id'] ?? null,
             $data['title'] ?? '',
             $data['client_name'] ?? '',
-            (int)($data['unit_price'] ?? 0),
+            (int) ($data['unit_price'] ?? 0),
             $start,
             $end,
             ProjectStatus::from($data['status'] ?? 'contact'),
@@ -71,19 +71,18 @@ final class Project
     }
 
     /**
-    * プロジェクトの収益を計算します。
-    *
-    * デフォルトでは `unitPrice` を日額とみなし、
-    * `日額 * 含む日数（開始日〜終了日、両端含む）` を返します。
-    *
-    * サポートされている単位:
-    * - "daily": 開始日と終了日の間の含む日数を使用
-    * - "monthly": 開始月から終了月までの含む月数をカウント
-    *
-    * 注: コンストラクタは既に開始日が終了日以下であることを（両方設定されている場合）検証します。
+     * プロジェクトの収益を計算します。
      *
-     * @param string $unit One of 'daily'|'monthly'
-     * @return int
+     * デフォルトでは `unitPrice` を日額とみなし、
+     * `日額 * 含む日数（開始日〜終了日、両端含む）` を返します。
+     *
+     * サポートされている単位:
+     * - "daily": 開始日と終了日の間の含む日数を使用
+     * - "monthly": 開始月から終了月までの含む月数をカウント
+     *
+     * 注: コンストラクタは既に開始日が終了日以下であることを（両方設定されている場合）検証します。
+     *
+     * @param  string  $unit  One of 'daily'|'monthly'
      */
     public function calculateRevenue(string $unit = 'daily'): int
     {
@@ -96,7 +95,7 @@ final class Project
         $end = $this->endDate->setTime(0, 0, 0);
 
         $diffSeconds = $end->getTimestamp() - $start->getTimestamp();
-        $days = (int)floor($diffSeconds / 86400) + 1;
+        $days = (int) floor($diffSeconds / 86400) + 1;
         if ($days < 0) {
             $days = 0;
         }
@@ -107,10 +106,10 @@ final class Project
 
         if ($unit === 'monthly') {
             // Inclusive month count: e.g., 2026-01-15 -> 2026-03-14 = 3 months (Jan, Feb, Mar)
-            $startYear = (int)$start->format('Y');
-            $startMonth = (int)$start->format('n');
-            $endYear = (int)$end->format('Y');
-            $endMonth = (int)$end->format('n');
+            $startYear = (int) $start->format('Y');
+            $startMonth = (int) $start->format('n');
+            $endYear = (int) $end->format('Y');
+            $endMonth = (int) $end->format('n');
 
             $months = ($endYear - $startYear) * 12 + ($endMonth - $startMonth) + 1;
             if ($months < 0) {
@@ -120,7 +119,7 @@ final class Project
             return $this->unitPrice * $months;
         }
 
-        throw new \InvalidArgumentException('Unknown unit for revenue calculation: ' . $unit);
+        throw new \InvalidArgumentException('Unknown unit for revenue calculation: '.$unit);
     }
 
     public function changeStatus(ProjectStatus $newStatus): void

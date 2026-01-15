@@ -20,7 +20,7 @@ final class ProjectCreateDTO
         return new self(
             $data['title'],
             $data['client_name'],
-            (int)($data['unit_price'] ?? 0),
+            (int) ($data['unit_price'] ?? 0),
             $data['start_date'] ?? null,
             $data['end_date'] ?? null,
             $data['status'] ?? 'contact',

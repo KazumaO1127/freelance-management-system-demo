@@ -19,10 +19,10 @@ final class ProjectUpdateDTO
     public static function fromArray(array $data): self
     {
         return new self(
-            (int)$data['id'],
+            (int) $data['id'],
             $data['title'],
             $data['client_name'],
-            (int)($data['unit_price'] ?? 0),
+            (int) ($data['unit_price'] ?? 0),
             $data['start_date'] ?? null,
             $data['end_date'] ?? null,
             $data['status'] ?? 'contact',

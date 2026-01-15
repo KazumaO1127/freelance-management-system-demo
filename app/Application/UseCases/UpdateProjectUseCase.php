@@ -8,13 +8,12 @@ use App\Domain\Repositories\ProjectRepositoryInterface;
 
 final class UpdateProjectUseCase
 {
-    public function __construct(private ProjectRepositoryInterface $repo)
-    {
-    }
+    public function __construct(private ProjectRepositoryInterface $repo) {}
 
     public function execute(ProjectUpdateDTO $dto): DomainProject
     {
         $domain = DomainProject::fromPrimitives($dto->toPrimitives());
+
         return $this->repo->save($domain);
     }
 }

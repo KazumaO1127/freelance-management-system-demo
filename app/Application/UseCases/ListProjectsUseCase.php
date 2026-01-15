@@ -7,9 +7,7 @@ use Illuminate\Contracts\Pagination\Paginator;
 
 final class ListProjectsUseCase
 {
-    public function __construct(private ProjectRepositoryInterface $repo)
-    {
-    }
+    public function __construct(private ProjectRepositoryInterface $repo) {}
 
     public function execute(int $perPage = 10): Paginator
     {
@@ -17,6 +15,7 @@ final class ListProjectsUseCase
 
         $p->getCollection()->transform(function ($domainProject) {
             $pr = $domainProject->toPrimitives();
+
             return \App\Application\ViewModels\ProjectViewModel::fromPrimitives($pr);
         });
 

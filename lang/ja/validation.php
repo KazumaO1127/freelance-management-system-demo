@@ -121,13 +121,13 @@ return [
     ],
 
     'attributes' => [
-        'title'       => 'タイトル',
+        'title' => 'タイトル',
         'client_name' => 'クライアント',
-        'unit_price'  => '単価',
-        'start_date'  => '開始日',
-        'end_date'    => '終了日',
-        'status'      => 'ステータス',
-        'memo'        => 'メモ',
+        'unit_price' => '単価',
+        'start_date' => '開始日',
+        'end_date' => '終了日',
+        'status' => 'ステータス',
+        'memo' => 'メモ',
     ],
 
 ];

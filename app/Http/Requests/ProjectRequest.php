@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Domain\ValueObjects\ProjectStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use App\Domain\ValueObjects\ProjectStatus;
 
 abstract class ProjectRequest extends FormRequest
 {

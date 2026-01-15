@@ -5,20 +5,21 @@ namespace App\Domain\ValueObjects;
 final class ProjectStatus
 {
     private const LABELS = [
-        'contact'     => '問い合わせ',
+        'contact' => '問い合わせ',
         'negotiation' => '商談中',
-        'contracted'  => '契約締結',
-        'working'     => '稼働中',
-        'completed'   => '完了',
+        'contracted' => '契約締結',
+        'working' => '稼働中',
+        'completed' => '完了',
     ];
 
     private function __construct(private string $value) {}
 
     public static function from(string $value): self
     {
-        if (!in_array($value, array_keys(self::LABELS), true)) {
+        if (! in_array($value, array_keys(self::LABELS), true)) {
             throw new \InvalidArgumentException("Invalid project status: {$value}");
         }
+
         return new self($value);
     }
 

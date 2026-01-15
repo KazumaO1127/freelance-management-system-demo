@@ -6,14 +6,13 @@ use App\Domain\Models\Project as DomainProject;
 use App\Domain\Repositories\ProjectRepositoryInterface;
 use App\Models\Project as EloquentProject;
 use Illuminate\Contracts\Pagination\Paginator;
-use Illuminate\Support\Collection;
 
 class EloquentProjectRepository implements ProjectRepositoryInterface
 {
     public function save(DomainProject $project): DomainProject
     {
         $pr = $project->toPrimitives();
-        $model = $pr['id'] ? EloquentProject::find($pr['id']) : new EloquentProject();
+        $model = $pr['id'] ? EloquentProject::find($pr['id']) : new EloquentProject;
         $model->fill($pr);
         $model->save();
 
@@ -36,7 +35,9 @@ class EloquentProjectRepository implements ProjectRepositoryInterface
     public function findById(int $id): ?DomainProject
     {
         $m = EloquentProject::find($id);
-        if (! $m) return null;
+        if (! $m) {
+            return null;
+        }
 
         // Map Eloquent -> primitives -> DomainProject
         $primitives = [
