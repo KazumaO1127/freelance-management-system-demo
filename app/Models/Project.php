@@ -26,16 +26,4 @@ class Project extends Model
         'end_date' => 'date',
         'unit_price' => 'integer',
     ];
-
-    public function getStatusLabelAttribute(): string
-    {
-        if (!$this->status) {
-            return '';
-        }
-        try {
-            return ProjectStatus::from($this->status)->label();
-        } catch (\InvalidArgumentException $e) {
-            return $this->status;
-        }
-    }
 }
