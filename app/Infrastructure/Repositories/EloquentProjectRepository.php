@@ -6,6 +6,7 @@ use App\Domain\Models\Project as DomainProject;
 use App\Domain\Repositories\ProjectRepositoryInterface;
 use App\Models\Project as EloquentProject;
 use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Support\Collection;
 
 class EloquentProjectRepository implements ProjectRepositoryInterface
 {
@@ -55,7 +56,25 @@ class EloquentProjectRepository implements ProjectRepositoryInterface
 
     public function paginate(int $perPage = 10): Paginator
     {
-        return EloquentProject::orderBy('created_at', 'desc')->paginate($perPage);
+        $p = EloquentProject::orderBy('created_at', 'desc')->paginate($perPage);
+
+        $p->getCollection()->transform(function ($m) {
+            $primitives = [
+                'id' => $m->id,
+                'title' => $m->title,
+                'client_name' => $m->client_name,
+                'unit_price' => $m->unit_price,
+                'start_date' => $m->start_date?->format('Y-m-d'),
+                'end_date' => $m->end_date?->format('Y-m-d'),
+                'status' => $m->status,
+                'memo' => $m->memo,
+                'user_id' => $m->user_id,
+            ];
+
+            return DomainProject::fromPrimitives($primitives);
+        });
+
+        return $p;
     }
 
     public function delete(int $id): void

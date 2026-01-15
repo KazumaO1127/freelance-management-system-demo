@@ -4,14 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProjectStoreRequest;
 use App\Http\Requests\ProjectUpdateRequest;
-use App\Models\Project;
 use App\Application\DTOs\ProjectCreateDTO;
-use App\Domain\Models\Project as DomainProject;
 use App\Application\UseCases\CreateProjectUseCase;
 use App\Application\UseCases\ListProjectsUseCase;
 use App\Application\UseCases\UpdateProjectUseCase;
 use App\Application\UseCases\DeleteProjectUseCase;
-use App\Domain\Repositories\ProjectRepositoryInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -19,11 +16,11 @@ use Illuminate\View\View;
 class ProjectController extends Controller
 {
     public function __construct(
-        private ProjectRepositoryInterface $repo,
         private CreateProjectUseCase $createProjectUseCase,
         private ListProjectsUseCase $listProjectsUseCase,
         private UpdateProjectUseCase $updateProjectUseCase,
-        private DeleteProjectUseCase $deleteProjectUseCase
+        private DeleteProjectUseCase $deleteProjectUseCase,
+        private \App\Application\UseCases\GetProjectUseCase $getProjectUseCase
     ) {
     }
 
@@ -35,7 +32,7 @@ class ProjectController extends Controller
 
     public function create(): View
     {
-        $project = new Project();
+        $project = new \App\Application\ViewModels\ProjectViewModel();
         return view('projects.create', compact('project'));
     }
 
@@ -46,23 +43,25 @@ class ProjectController extends Controller
         return redirect()->route('projects.index')->with('success', 'Project created.');
     }
 
-    public function edit(Project $project): View
+    public function edit(int $project): View
     {
-        return view('projects.edit', compact('project'));
+        $vm = $this->getProjectUseCase->execute($project);
+        if (! $vm) abort(404);
+        return view('projects.edit', ['project' => $vm]);
     }
 
-    public function update(ProjectUpdateRequest $request, Project $project): RedirectResponse
+    public function update(ProjectUpdateRequest $request, int $project): RedirectResponse
     {
         $data = $request->validated();
-        $data['id'] = $project->id;
+        $data['id'] = $project;
         $dto = \App\Application\DTOs\ProjectUpdateDTO::fromArray($data);
         $this->updateProjectUseCase->execute($dto);
         return redirect()->route('projects.index')->with('success', 'Project updated.');
     }
 
-    public function destroy(Project $project): RedirectResponse
+    public function destroy(int $project): RedirectResponse
     {
-        $this->deleteProjectUseCase->execute($project->id);
+        $this->deleteProjectUseCase->execute($project);
         return redirect()->route('projects.index')->with('success', 'Project deleted.');
     }
 }

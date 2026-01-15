@@ -13,6 +13,13 @@ final class ListProjectsUseCase
 
     public function execute(int $perPage = 10): Paginator
     {
-        return $this->repo->paginate($perPage);
+        $p = $this->repo->paginate($perPage);
+
+        $p->getCollection()->transform(function ($domainProject) {
+            $pr = $domainProject->toPrimitives();
+            return \App\Application\ViewModels\ProjectViewModel::fromPrimitives($pr);
+        });
+
+        return $p;
     }
 }
