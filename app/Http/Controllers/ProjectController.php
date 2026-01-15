@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Application\DTOs\ProjectCreateDTO;
+use App\Application\DTOs\ProjectUpdateDTO;
 use App\Application\UseCases\CreateProjectUseCase;
 use App\Application\UseCases\DeleteProjectUseCase;
 use App\Application\UseCases\GetProjectUseCase;
 use App\Application\UseCases\ListProjectsUseCase;
 use App\Application\UseCases\UpdateProjectUseCase;
+use App\Application\ViewModels\ProjectViewModel;
 use App\Domain\ValueObjects\ProjectStatus;
 use App\Http\Requests\ProjectStoreRequest;
 use App\Http\Requests\ProjectUpdateRequest;
@@ -34,7 +36,7 @@ class ProjectController extends Controller
 
     public function create(): View
     {
-        $project = new \App\Application\ViewModels\ProjectViewModel;
+        $project = new ProjectViewModel;
         $statuses = ProjectStatus::options();
 
         return view('projects.create', compact('project', 'statuses'));
@@ -62,7 +64,7 @@ class ProjectController extends Controller
     {
         $data = $request->validated();
         $data['id'] = $project;
-        $dto = \App\Application\DTOs\ProjectUpdateDTO::fromArray($data);
+        $dto = ProjectUpdateDTO::fromArray($data);
         $this->updateProjectUseCase->execute($dto);
 
         return redirect()->route('projects.index')->with('success', '案件を更新しました。');
