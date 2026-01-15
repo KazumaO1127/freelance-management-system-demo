@@ -13,7 +13,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->string('title');
             $table->string('client_name');
-            $table->integer('unit_price')->unsigned()->default(0);
+            $table->unsignedInteger('unit_price')->default(0);
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->enum('status', ['contact', 'negotiation', 'contracted', 'working', 'completed'])->default('contact');
