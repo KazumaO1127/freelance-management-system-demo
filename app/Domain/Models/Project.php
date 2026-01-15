@@ -125,7 +125,7 @@ final class Project
 
     public function changeStatus(ProjectStatus $newStatus): void
     {
-        $order = ['contact', 'negotiation', 'contracted', 'working', 'completed'];
+        $order = ProjectStatus::values();
 
         $currentIndex = array_search($this->status->value(), $order, true);
         $newIndex = array_search($newStatus->value(), $order, true);

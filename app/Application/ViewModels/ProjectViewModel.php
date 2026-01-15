@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Application\ViewModels;
+use App\Domain\ValueObjects\ProjectStatus;
 
 final class ProjectViewModel
 {
@@ -34,13 +35,7 @@ final class ProjectViewModel
 
     private static function labelForStatus(string $status): string
     {
-        return match ($status) {
-            'contact' => '問い合わせ',
-            'negotiation' => '商談中',
-            'contracted' => '契約締結',
-            'working' => '稼働中',
-            'completed' => '完了',
-            default => '未設定',
-        };
+        $options = ProjectStatus::options();
+        return $options[$status] ?? '未設定';
     }
 }
