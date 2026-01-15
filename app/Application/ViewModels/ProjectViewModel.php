@@ -6,7 +6,7 @@ use App\Domain\ValueObjects\ProjectStatus;
 
 final class ProjectViewModel
 {
-    public int $id = 0;
+    public ?int $id = null;
     public string $title = '';
     public string $client_name = '';
     public int $unit_price = 0;
@@ -20,7 +20,7 @@ final class ProjectViewModel
     public static function fromPrimitives(array $primitives): self
     {
         $vm = new self;
-        $vm->id = $primitives['id'] ?? 0;
+        $vm->id = isset($primitives['id']) ? (int) $primitives['id'] : null;
         $vm->title = $primitives['title'] ?? '';
         $vm->client_name = $primitives['client_name'] ?? '';
         $vm->unit_price = (int) ($primitives['unit_price'] ?? 0);
