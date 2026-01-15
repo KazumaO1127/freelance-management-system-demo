@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Application\DTOs\ProjectCreateDTO;
 use App\Application\UseCases\CreateProjectUseCase;
 use App\Application\UseCases\DeleteProjectUseCase;
+use App\Application\UseCases\GetProjectUseCase;
 use App\Application\UseCases\ListProjectsUseCase;
 use App\Application\UseCases\UpdateProjectUseCase;
 use App\Domain\ValueObjects\ProjectStatus;
@@ -21,7 +22,7 @@ class ProjectController extends Controller
         private ListProjectsUseCase $listProjectsUseCase,
         private UpdateProjectUseCase $updateProjectUseCase,
         private DeleteProjectUseCase $deleteProjectUseCase,
-        private \App\Application\UseCases\GetProjectUseCase $getProjectUseCase
+        private GetProjectUseCase $getProjectUseCase
     ) {}
 
     public function index(Request $request): View
