@@ -46,9 +46,6 @@
 <div class="mb-3">
     <label class="form-label">ステータス</label>
     <select name="status" class="form-select">
-        @php
-            $statuses = \App\Domain\ValueObjects\ProjectStatus::options();
-        @endphp
         @foreach ($statuses as $value => $label)
             <option value="{{ $value }}" @if (old('status', $project->status ?? '') === $value) selected @endif>{{ $label }}
             </option>

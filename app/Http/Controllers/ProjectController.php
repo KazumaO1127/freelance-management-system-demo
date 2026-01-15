@@ -12,6 +12,7 @@ use App\Application\UseCases\DeleteProjectUseCase;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Domain\ValueObjects\ProjectStatus;
 
 class ProjectController extends Controller
 {
@@ -33,7 +34,8 @@ class ProjectController extends Controller
     public function create(): View
     {
         $project = new \App\Application\ViewModels\ProjectViewModel();
-        return view('projects.create', compact('project'));
+        $statuses = ProjectStatus::options();
+        return view('projects.create', compact('project', 'statuses'));
     }
 
     public function store(ProjectStoreRequest $request): RedirectResponse
@@ -47,7 +49,7 @@ class ProjectController extends Controller
     {
         $vm = $this->getProjectUseCase->execute($project);
         if (! $vm) abort(404);
-        return view('projects.edit', ['project' => $vm]);
+        return view('projects.edit', ['project' => $vm, 'statuses' => ProjectStatus::options()]);
     }
 
     public function update(ProjectUpdateRequest $request, int $project): RedirectResponse
