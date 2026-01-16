@@ -4,95 +4,97 @@ namespace Tests\Unit;
 
 use App\Domain\Models\Project as DomainProject;
 use App\Infrastructure\Repositories\EloquentProjectRepository;
-use DateTimeImmutable;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Mockery;
-use PHPUnit\Framework\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class EloquentProjectRepositoryTest extends TestCase
 {
-    protected function tearDown(): void
-    {
-        Mockery::close();
-        parent::tearDown();
-    }
+    use RefreshDatabase;
 
     public function test_find_by_id_with_existing_id_can_return_domain_project(): void
     {
-        $m = new \stdClass;
-        $m->id = 42;
-        $m->title = 'Repo Title';
-        $m->client_name = 'Repo Client';
-        $m->unit_price = 2500;
-        $m->start_date = new DateTimeImmutable('2026-01-01');
-        $m->end_date = null;
-        $m->status = 'contact';
-        $m->memo = 'memo';
-        $m->user_id = null;
+        $primitives = [
+            'id' => null,
+            'title' => 'Repo Title',
+            'client_name' => 'Repo Client',
+            'unit_price' => 2500,
+            'start_date' => '2026-01-01',
+            'end_date' => null,
+            'status' => 'contact',
+            'memo' => 'memo',
+            'user_id' => null,
+        ];
 
-        $mock = Mockery::mock('alias:App\\Models\\Project');
-        $mock->shouldReceive('find')->with(42)->andReturn($m);
+        $domain = DomainProject::fromPrimitives($primitives);
 
         $repo = new EloquentProjectRepository;
-        $domain = $repo->findById(42);
+        $saved = $repo->save($domain);
 
-        $this->assertInstanceOf(DomainProject::class, $domain);
-        $this->assertSame(42, $domain->id());
+        $this->assertNotNull($saved->id());
+
+        $found = $repo->findById($saved->id());
+        $this->assertInstanceOf(DomainProject::class, $found);
+        $this->assertSame($saved->id(), $found->id());
     }
 
     public function test_delete_with_existing_id_can_call_destroy(): void
     {
-        $mock = Mockery::mock('alias:App\\Models\\Project');
-        $mock->shouldReceive('destroy')->with(99)->once();
+        $domain = DomainProject::fromPrimitives([
+            'id' => null,
+            'title' => 'ToDelete',
+            'client_name' => 'C',
+            'unit_price' => 1000,
+            'start_date' => '2026-01-01',
+            'end_date' => null,
+            'status' => 'contact',
+            'memo' => null,
+            'user_id' => null,
+        ]);
 
         $repo = new EloquentProjectRepository;
-        $repo->delete(99);
+        $saved = $repo->save($domain);
 
-        $this->addToAssertionCount(1);
+        $repo->delete($saved->id());
+        $this->assertNull($repo->findById($saved->id()));
     }
 
     public function test_paginate_can_transform_models_to_domain(): void
     {
-        $m = new \stdClass;
-        $m->id = 5;
-        $m->title = 'P1';
-        $m->client_name = 'C1';
-        $m->unit_price = 1000;
-        $m->start_date = new DateTimeImmutable('2026-01-01');
-        $m->end_date = null;
-        $m->status = 'contact';
-        $m->memo = null;
-        $m->user_id = null;
-
-        $collection = collect([$m]);
-        $paginator = new LengthAwarePaginator($collection, 1, 10);
-
-        $orderMock = Mockery::mock();
-        $orderMock->shouldReceive('paginate')->with(10)->andReturn($paginator);
-
-        $mock = Mockery::mock('alias:App\\Models\\Project');
-        $mock->shouldReceive('orderBy')->with('created_at', 'desc')->andReturn($orderMock);
-
         $repo = new EloquentProjectRepository;
+
+        for ($i = 1; $i <= 3; $i++) {
+            $repo->save(DomainProject::fromPrimitives([
+                'id' => null,
+                'title' => "P{$i}",
+                'client_name' => "C{$i}",
+                'unit_price' => 1000 * $i,
+                'start_date' => '2026-01-01',
+                'end_date' => null,
+                'status' => 'contact',
+                'memo' => null,
+                'user_id' => null,
+            ]));
+        }
+
         $p = $repo->paginate(10);
 
         $this->assertInstanceOf(\Illuminate\Contracts\Pagination\Paginator::class, $p);
-        $this->assertSame(1, $p->total());
+        $this->assertSame(3, $p->total());
+        $this->assertInstanceOf(DomainProject::class, $p->items()[0]);
     }
 
     public function test_find_by_id_with_missing_id_can_return_null(): void
     {
-        $mock = Mockery::mock('alias:App\\Models\\Project');
-        $mock->shouldReceive('find')->with(123)->andReturn(null);
-
         $repo = new EloquentProjectRepository;
-        $this->assertNull($repo->findById(123));
+        $this->assertNull($repo->findById(123456789));
     }
 
     public function test_save_with_existing_model_can_return_domain_project(): void
     {
-        $primitives = [
-            'id' => 7,
+        $repo = new EloquentProjectRepository;
+
+        $domain = DomainProject::fromPrimitives([
+            'id' => null,
             'title' => 'Updated',
             'client_name' => 'C',
             'unit_price' => 2000,
@@ -101,51 +103,28 @@ class EloquentProjectRepositoryTest extends TestCase
             'status' => 'working',
             'memo' => 'm',
             'user_id' => null,
-        ];
+        ]);
 
-        $domain = DomainProject::fromPrimitives($primitives);
+        $saved = $repo->save($domain);
 
-        $modelInstance = new class
-        {
-            public $id = 7;
-            public $title;
-            public $client_name;
-            public $unit_price;
-            public $start_date;
-            public $end_date;
-            public $status;
-            public $memo;
-            public $user_id;
+        $this->assertInstanceOf(DomainProject::class, $saved);
 
-            public function fill($data)
-            {
-                foreach ($data as $k => $v) {
-                    $this->$k = $v;
-                }
-            }
+        // Update and save again
+        $updatedDomain = DomainProject::fromPrimitives([
+            'id' => $saved->id(),
+            'title' => 'Updated2',
+            'client_name' => 'C2',
+            'unit_price' => 2500,
+            'start_date' => '2026-01-01',
+            'end_date' => null,
+            'status' => 'working',
+            'memo' => 'm2',
+            'user_id' => null,
+        ]);
 
-            public function save() {}
-        };
+        $result = $repo->save($updatedDomain);
 
-        $saved = new \stdClass;
-        $saved->id = 7;
-        $saved->title = 'Updated';
-        $saved->client_name = 'C';
-        $saved->unit_price = 2000;
-        $saved->start_date = new DateTimeImmutable('2026-01-01');
-        $saved->end_date = null;
-        $saved->status = 'working';
-        $saved->memo = 'm';
-        $saved->user_id = null;
-
-        $mock = Mockery::mock('alias:App\\Models\\Project');
-        $mock->shouldReceive('find')->with(7)->andReturn($modelInstance, $saved);
-
-        $repo = new EloquentProjectRepository;
-        $result = $repo->save($domain);
-
-        $this->assertInstanceOf(DomainProject::class, $result);
-        $this->assertSame(7, $result->id());
-        $this->assertSame('Updated', $result->title());
+        $this->assertSame($saved->id(), $result->id());
+        $this->assertSame('Updated2', $result->title());
     }
 }
