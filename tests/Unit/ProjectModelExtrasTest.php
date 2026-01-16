@@ -60,6 +60,6 @@ class ProjectModelExtrasTest extends TestCase
         $this->assertSame('Title X', $project->title());
         $this->assertSame('Title X', $pr['title']);
         $this->assertSame('2026-01-01', $pr['start_date']);
-        $this->assertSame(2000, $pr->unit_price);
+        $this->assertSame(2000, $pr['unit_price']);
     }
 }
