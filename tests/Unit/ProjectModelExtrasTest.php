@@ -9,19 +9,19 @@ use PHPUnit\Framework\TestCase;
 
 class ProjectModelExtrasTest extends TestCase
 {
-    public function test_constructor_validations_empty_title_throws(): void
+    public function test_constructor_with_empty_title_can_throw_exception(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new Project(null, '', 'c', 1000, null, null, ProjectStatus::from('contact'), null, null);
     }
 
-    public function test_constructor_negative_unit_price_throws(): void
+    public function test_constructor_with_negative_unit_price_can_throw_exception(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new Project(null, 't', 'c', -10, null, null, ProjectStatus::from('contact'), null, null);
     }
 
-    public function test_constructor_start_after_end_throws(): void
+    public function test_constructor_with_start_after_end_can_throw_exception(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $start = new DateTimeImmutable('2026-02-10');
@@ -29,7 +29,7 @@ class ProjectModelExtrasTest extends TestCase
         new Project(null, 't', 'c', 1000, $start, $end, ProjectStatus::from('contact'), null, null);
     }
 
-    public function test_calculate_revenue_monthly(): void
+    public function test_calculate_revenue_with_monthly_unit_can_return_total(): void
     {
         $start = new DateTimeImmutable('2026-01-15');
         $end = new DateTimeImmutable('2026-03-14');
@@ -39,7 +39,7 @@ class ProjectModelExtrasTest extends TestCase
         $this->assertSame(3000, $project->calculateRevenue('monthly'));
     }
 
-    public function test_calculate_revenue_unknown_unit_throws(): void
+    public function test_calculate_revenue_with_unknown_unit_can_throw_exception(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $start = new DateTimeImmutable('2026-01-01');
@@ -49,7 +49,7 @@ class ProjectModelExtrasTest extends TestCase
         $project->calculateRevenue('yearly');
     }
 
-    public function test_to_primitives_and_getters(): void
+    public function test_to_primitives_and_getters_can_return_expected_values(): void
     {
         $start = new DateTimeImmutable('2026-01-01');
         $end = new DateTimeImmutable('2026-01-01');
@@ -60,6 +60,6 @@ class ProjectModelExtrasTest extends TestCase
         $this->assertSame('Title X', $project->title());
         $this->assertSame('Title X', $pr['title']);
         $this->assertSame('2026-01-01', $pr['start_date']);
-        $this->assertSame(2000, $pr['unit_price']);
+        $this->assertSame(2000, $pr->unit_price);
     }
 }

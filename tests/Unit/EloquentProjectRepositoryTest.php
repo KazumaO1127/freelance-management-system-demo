@@ -17,7 +17,7 @@ class EloquentProjectRepositoryTest extends TestCase
         parent::tearDown();
     }
 
-    public function test_find_by_id_maps_to_domain(): void
+    public function test_find_by_id_with_existing_id_can_return_domain_project(): void
     {
         $m = new \stdClass;
         $m->id = 42;
@@ -40,7 +40,7 @@ class EloquentProjectRepositoryTest extends TestCase
         $this->assertSame(42, $domain->id());
     }
 
-    public function test_delete_calls_destroy(): void
+    public function test_delete_with_existing_id_can_call_destroy(): void
     {
         $mock = Mockery::mock('alias:App\\Models\\Project');
         $mock->shouldReceive('destroy')->with(99)->once();
@@ -51,7 +51,7 @@ class EloquentProjectRepositoryTest extends TestCase
         $this->addToAssertionCount(1);
     }
 
-    public function test_paginate_transforms_models_to_domain(): void
+    public function test_paginate_can_transform_models_to_domain(): void
     {
         $m = new \stdClass;
         $m->id = 5;
@@ -80,7 +80,7 @@ class EloquentProjectRepositoryTest extends TestCase
         $this->assertSame(1, $p->total());
     }
 
-    public function test_find_by_id_returns_null_when_not_found(): void
+    public function test_find_by_id_with_missing_id_can_return_null(): void
     {
         $mock = Mockery::mock('alias:App\\Models\\Project');
         $mock->shouldReceive('find')->with(123)->andReturn(null);
@@ -89,7 +89,7 @@ class EloquentProjectRepositoryTest extends TestCase
         $this->assertNull($repo->findById(123));
     }
 
-    public function test_save_updates_existing_model_and_returns_domain(): void
+    public function test_save_with_existing_model_can_return_domain_project(): void
     {
         $primitives = [
             'id' => 7,

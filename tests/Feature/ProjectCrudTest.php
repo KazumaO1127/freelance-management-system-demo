@@ -115,7 +115,7 @@ class ProjectCrudTest extends TestCase
         };
     }
 
-    public function test_index_displays_projects(): void
+    public function test_index_with_projects_can_display_projects(): void
     {
         $pr = [
             'id' => 1,
@@ -137,7 +137,7 @@ class ProjectCrudTest extends TestCase
         $response->assertSee('Client A');
     }
 
-    public function test_create_displays_form(): void
+    public function test_create_page_can_return_form_view(): void
     {
         $response = $this->get(route('projects.create'));
 
@@ -145,7 +145,7 @@ class ProjectCrudTest extends TestCase
         $response->assertSee('問い合わせ');
     }
 
-    public function test_edit_shows_project_and_404_when_missing(): void
+    public function test_edit_with_project_can_show_and_missing_can_return_404(): void
     {
         $primitives = [
             'id' => 10,
@@ -167,7 +167,7 @@ class ProjectCrudTest extends TestCase
         $res2->assertStatus(404);
     }
 
-    public function test_destroy_returns_404_when_missing(): void
+    public function test_destroy_with_missing_can_return_404(): void
     {
         $this->app->bind(\App\Domain\Repositories\ProjectRepositoryInterface::class, fn () => $this->makeInMemoryRepository([]));
 
@@ -175,7 +175,7 @@ class ProjectCrudTest extends TestCase
         $res->assertStatus(404);
     }
 
-    public function test_store_creates_project(): void
+    public function test_store_with_valid_data_can_create_project(): void
     {
         $this->app->bind(\App\Domain\Repositories\ProjectRepositoryInterface::class, fn () => $this->makeInMemoryRepository());
 
@@ -210,7 +210,7 @@ class ProjectCrudTest extends TestCase
         $response->assertSessionHasErrors(['title', 'client_name', 'unit_price', 'status']);
     }
 
-    public function test_update_updates_project(): void
+    public function test_update_with_valid_data_can_update_project(): void
     {
         $primitives = [
             'id' => 2,
@@ -234,7 +234,7 @@ class ProjectCrudTest extends TestCase
         $response->assertRedirect(route('projects.index'));
     }
 
-    public function test_destroy_deletes_project(): void
+    public function test_destroy_with_existing_project_can_delete_and_redirect(): void
     {
         $primitives = [
             'id' => 3,

@@ -9,7 +9,7 @@ class ExampleTest extends TestCase
     /**
      * A basic test example.
      */
-    public function test_that_true_is_true(): void
+    public function test_dummy_assertion_can_be_true(): void
     {
         $this->assertTrue(true);
     }
