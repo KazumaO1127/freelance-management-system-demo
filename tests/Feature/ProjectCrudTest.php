@@ -76,7 +76,7 @@ class ProjectCrudTest extends TestCase
         $response->assertSee('問い合わせ');
     }
 
-    public function test_edit_with_project_can_show_and_missing_can_return_404(): void
+    public function test_edit_with_project_can_show(): void
     {
         $primitives = [
             'id' => 10,
@@ -86,16 +86,21 @@ class ProjectCrudTest extends TestCase
             'status' => 'contact',
         ];
 
-        // success case
         $this->app->bind(\App\Domain\Repositories\ProjectRepositoryInterface::class, fn () => $this->makeInMemoryRepository([$primitives]));
+
         $res = $this->get(route('projects.edit', $primitives['id']));
+
         $res->assertStatus(200);
         $res->assertSee('Edit Me');
+    }
 
-        // not found case
+    public function test_edit_missing_can_return_404(): void
+    {
         $this->app->bind(\App\Domain\Repositories\ProjectRepositoryInterface::class, fn () => $this->makeInMemoryRepository([]));
-        $res2 = $this->get(route('projects.edit', 9999));
-        $res2->assertStatus(404);
+
+        $res = $this->get(route('projects.edit', 9999));
+
+        $res->assertStatus(404);
     }
 
     public function test_destroy_with_missing_can_return_404(): void
