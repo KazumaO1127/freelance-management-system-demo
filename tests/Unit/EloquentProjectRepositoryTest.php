@@ -79,4 +79,73 @@ class EloquentProjectRepositoryTest extends TestCase
         $this->assertInstanceOf(\Illuminate\Contracts\Pagination\Paginator::class, $p);
         $this->assertSame(1, $p->total());
     }
+
+    public function test_find_by_id_returns_null_when_not_found(): void
+    {
+        $mock = Mockery::mock('alias:App\\Models\\Project');
+        $mock->shouldReceive('find')->with(123)->andReturn(null);
+
+        $repo = new EloquentProjectRepository;
+        $this->assertNull($repo->findById(123));
+    }
+
+    public function test_save_updates_existing_model_and_returns_domain(): void
+    {
+        $primitives = [
+            'id' => 7,
+            'title' => 'Updated',
+            'client_name' => 'C',
+            'unit_price' => 2000,
+            'start_date' => '2026-01-01',
+            'end_date' => null,
+            'status' => 'working',
+            'memo' => 'm',
+            'user_id' => null,
+        ];
+
+        $domain = DomainProject::fromPrimitives($primitives);
+
+        $modelInstance = new class
+        {
+            public $id = 7;
+            public $title;
+            public $client_name;
+            public $unit_price;
+            public $start_date;
+            public $end_date;
+            public $status;
+            public $memo;
+            public $user_id;
+
+            public function fill($data)
+            {
+                foreach ($data as $k => $v) {
+                    $this->$k = $v;
+                }
+            }
+
+            public function save() {}
+        };
+
+        $saved = new \stdClass;
+        $saved->id = 7;
+        $saved->title = 'Updated';
+        $saved->client_name = 'C';
+        $saved->unit_price = 2000;
+        $saved->start_date = new DateTimeImmutable('2026-01-01');
+        $saved->end_date = null;
+        $saved->status = 'working';
+        $saved->memo = 'm';
+        $saved->user_id = null;
+
+        $mock = Mockery::mock('alias:App\\Models\\Project');
+        $mock->shouldReceive('find')->with(7)->andReturn($modelInstance, $saved);
+
+        $repo = new EloquentProjectRepository;
+        $result = $repo->save($domain);
+
+        $this->assertInstanceOf(DomainProject::class, $result);
+        $this->assertSame(7, $result->id());
+        $this->assertSame('Updated', $result->title());
+    }
 }
