@@ -186,4 +186,98 @@ class ProjectCrudTest extends TestCase
 
         $response->assertRedirect(route('projects.index'));
     }
+
+    public function test_update_validation_fails_can_return_errors(): void
+    {
+        $primitives = [
+            'id' => 4,
+            'title' => 'Will Fail',
+            'client_name' => 'Client X',
+            'unit_price' => 1000,
+            'status' => 'contact',
+        ];
+
+        $this->app->bind(\App\Domain\Repositories\ProjectRepositoryInterface::class, fn () => $this->makeInMemoryRepository([$primitives]));
+
+        $data = [
+            'title' => '',
+            'client_name' => '',
+            'unit_price' => -10,
+            'status' => 'not_a_status',
+        ];
+
+        $response = $this->put(route('projects.update', $primitives['id']), $data);
+
+        $response->assertSessionHasErrors(['title', 'client_name', 'unit_price', 'status']);
+    }
+
+    public function test_store_with_invalid_date_format_and_order_returns_errors(): void
+    {
+        $this->app->bind(\App\Domain\Repositories\ProjectRepositoryInterface::class, fn () => $this->makeInMemoryRepository());
+
+        // invalid format
+        $data1 = [
+            'title' => 'Dated',
+            'client_name' => 'Client D',
+            'unit_price' => 1000,
+            'start_date' => 'not-a-date',
+            'end_date' => '2026-02-02',
+            'status' => 'contact',
+        ];
+
+        $res1 = $this->post(route('projects.store'), $data1);
+        $res1->assertSessionHasErrors(['start_date']);
+
+        // end_date before start_date
+        $data2 = [
+            'title' => 'Bad Order',
+            'client_name' => 'Client D',
+            'unit_price' => 1000,
+            'start_date' => '2026-02-10',
+            'end_date' => '2026-02-01',
+            'status' => 'contact',
+        ];
+
+        $res2 = $this->post(route('projects.store'), $data2);
+        $res2->assertSessionHasErrors(['end_date']);
+    }
+
+    public function test_update_with_invalid_date_format_and_order_returns_errors(): void
+    {
+        $primitives = [
+            'id' => 5,
+            'title' => 'Date Update',
+            'client_name' => 'Client Y',
+            'unit_price' => 1000,
+            'status' => 'contact',
+        ];
+
+        $this->app->bind(\App\Domain\Repositories\ProjectRepositoryInterface::class, fn () => $this->makeInMemoryRepository([$primitives]));
+
+        // invalid format
+        $data1 = [
+            'title' => 'Dated',
+            'client_name' => 'Client Y',
+            'unit_price' => 1000,
+            'start_date' => '32-99-99',
+            'end_date' => '2026-02-02',
+            'status' => 'contact',
+        ];
+
+        $res1 = $this->put(route('projects.update', $primitives['id']), $data1);
+        $res1->assertSessionHasErrors(['start_date']);
+
+        // end_date before start_date
+        $data2 = [
+            'title' => 'Bad Order',
+            'client_name' => 'Client Y',
+            'unit_price' => 1000,
+            'start_date' => '2026-03-10',
+            'end_date' => '2026-03-01',
+            'status' => 'contact',
+        ];
+
+        $res2 = $this->put(route('projects.update', $primitives['id']), $data2);
+        $res2->assertSessionHasErrors(['end_date']);
+    }
 }
