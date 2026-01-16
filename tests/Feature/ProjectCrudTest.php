@@ -2,79 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Application\ViewModels\ProjectViewModel;
 use Tests\TestCase;
 
 class ProjectCrudTest extends TestCase
 {
-    private function fakeCreateUseCase()
-    {
-        return new class
-        {
-            public function execute($dto)
-            {
-                return null;
-            }
-        };
-    }
-
-    private function fakeUpdateUseCase()
-    {
-        return new class
-        {
-            public function execute($dto)
-            {
-                return null;
-            }
-        };
-    }
-
-    private function fakeDeleteUseCase()
-    {
-        return new class
-        {
-            public function execute(int $id): void {}
-        };
-    }
-
-    private function fakeGetUseCase(?array $primitives = null)
-    {
-        return new class($primitives)
-        {
-            private $p;
-            public function __construct($p)
-            {
-                $this->p = $p;
-            }
-            public function execute(int $id)
-            {
-                if (! $this->p) {
-                    return null;
-                }
-
-                return ProjectViewModel::fromPrimitives($this->p);
-            }
-        };
-    }
-
-    private function fakeListUseCase(array $items = [])
-    {
-        return new class($items)
-        {
-            private $items;
-            public function __construct($items)
-            {
-                $this->items = $items;
-            }
-            public function execute(int $perPage = 10)
-            {
-                $collection = collect($this->items);
-
-                return new \Illuminate\Pagination\LengthAwarePaginator($collection, $collection->count(), $perPage);
-            }
-        };
-    }
-
     private function makeInMemoryRepository(array $items = [])
     {
         return new class($items) implements \App\Domain\Repositories\ProjectRepositoryInterface
