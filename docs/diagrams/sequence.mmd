@@ -1,0 +1,25 @@
+sequenceDiagram
+  participant User
+  participant Routes as routes/web.php
+  participant Ctrl as ProjectController
+  participant Req as ProjectStoreRequest
+  participant UC as CreateProjectUseCase
+  participant Domain as Project(Domain)
+  participant Repo as ProjectRepositoryInterface
+  participant Infra as EloquentRepository
+  participant DB
+
+  User->>Routes: POST /projects
+  Routes->>Ctrl: store()
+  Ctrl->>Req: validate()
+  Req-->>Ctrl: validated data
+  Ctrl->>UC: execute(ProjectCreateDTO)
+  UC->>Domain: new Project(...)
+  Domain->>Repo: save(Project)
+  Repo->>Infra: persist(EloquentModel)
+  Infra->>DB: INSERT
+  DB-->>Infra: OK
+  Infra-->>Repo: OK
+  Repo-->>UC: OK
+  UC-->>Ctrl: ViewModel
+  Ctrl-->>User: redirect
